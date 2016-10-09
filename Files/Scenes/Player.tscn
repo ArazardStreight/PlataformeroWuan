@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://Files/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Files/Scripts/Player/ray_detection_bottom.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -12,9 +13,10 @@ extents = Vector2( 31.454, 31.035 )
 
 script/script = ExtResource( 1 )
 gravity = 0
-velocidad = 0
+velocidad = 5
+jump_force = 0
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="Body" type="RigidBody2D" parent="."]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -38,14 +40,24 @@ velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="Collision_Body" type="CollisionShape2D" parent="Body"]
 
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Sprite" type="Sprite" parent="RigidBody2D"]
+[node name="Sprite" type="Sprite" parent="Body"]
 
 texture = ExtResource( 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Body"]
+
+transform/pos = Vector2( 0, 32.94 )
+transform/scale = Vector2( 1, 0.1 )
+enabled = true
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
+script/script = ExtResource( 3 )
 
 

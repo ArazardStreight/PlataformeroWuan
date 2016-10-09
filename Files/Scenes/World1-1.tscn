@@ -40,7 +40,7 @@ _update_shape_index = 0
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( 401.47, 230.815 )
-gravity = 10
-velocidad = 5
+gravity = 5
+jump_force = 10
 
 

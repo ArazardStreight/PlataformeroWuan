@@ -7,34 +7,40 @@ extends Node2D
 
 export var gravity = 0
 export var velocidad = 0
+export var jump_force = 0
+
 var let_move = true
-var STATE
-var jump_control = 0
+var readytojump = true
+var body
+var STATE #ya lo voy a usar para una maquina de estados...
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	get_node("RigidBody2D").set_gravity_scale(gravity)
-	set_process(true)
+	body = get_node("Body")
+	body.set_gravity_scale(gravity)
+	body.set_rot(0)
+	set_fixed_process(true)
 	pass
 
-func _process(delta):
+func _fixed_process(delta):
+	body.set_rot(0)
 	check_move(let_move)
-	check_jump(delta)
+	check_jump()	
+	
 
 func check_move(x):
 	if(x):
 		if(Input.is_action_pressed("move_right")):
-			get_node("RigidBody2D").move_local_x(velocidad, true)
+			body.move_local_x(velocidad, false)
 			#print("funciona")
 		if(Input.is_action_pressed("move_left")):
-			get_node("RigidBody2D").move_local_x(-velocidad, true)
+			body.move_local_x(-velocidad, false)
+			
 			
 
-func check_jump(xdelta):
-	if(Input.is_action_pressed("move_jump") && jump_control < 5):
-		move_local_y(-5, true)#add_force(Vector2(0, -1), Vector2(0, 5))
-		jump_control += xdelta
-		print(jump_control)
+func check_jump():
+	if(Input.is_action_pressed("move_jump") and readytojump):
+		move_local_y(-jump_force, true)#add_force(Vector2(0, -1), Vector2(0, 5))
+		readytojump = false
 		#print("funca")
-	else: jump_control == 0
